@@ -1,9 +1,13 @@
-import React from "react";
 import CartItem from "./CartItem";
 import { connect } from "react-redux";
-import { CLEAR_CART } from "../actions";
+import { CLEAR_CART, GET_TOTALS } from "../actions";
+import React, { useEffect } from "react";
 
 const CartContainer = ({ cart = [], total, dispatch }) => {
+  useEffect(() => {
+    dispatch({ type: GET_TOTALS });
+  }, [cart, dispatch]);
+
   if (cart.length === 0) {
     return (
       <section className="cart">
@@ -38,7 +42,7 @@ const CartContainer = ({ cart = [], total, dispatch }) => {
         </div>
         <button
           className="btn clear-btn"
-          onClick={() => dispatch({ type: "CLEAR_CART" })}
+          onClick={() => dispatch({ type: CLEAR_CART })}
         >
           clear cart
         </button>
