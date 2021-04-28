@@ -7,45 +7,28 @@ import cartItems from "./cart-items";
 // redux stuff
 import { createStore } from "redux";
 import { act } from "react-dom/test-utils";
-import { INCREASE, DECREASE } from "./actions";
-// store.getState()
+import reducer from "./reducer";
+// react-redux - Provided - Wraps app - connect used in components
+import { Provider } from "react-redux";
 
 // initial store
 const initialStore = {
-  count: 0,
-  name: "john",
+  cart: cartItems,
+  total: 9,
+  amount: 8,
 };
 
 // reducer
 function App() {
   // cart setup
 
-  function reducer(state, action) {
-    console.log({ state, action });
-    if (action.type === DECREASE) {
-      console.log("this is working");
-      return { ...state, count: state.count - 1 };
-    }
-    if (action.type === INCREASE) {
-      return { ...state, count: state.count + 1 };
-    }
-    return state;
-  }
-
   const store = createStore(reducer, initialStore);
-  console.log(store.getState());
-  store.dispatch({ type: DECREASE });
-  console.log(store.getState());
-  store.dispatch({ type: INCREASE });
-  store.dispatch({ type: INCREASE });
-  store.dispatch({ type: INCREASE });
-  console.log(store.getState());
 
   return (
-    <main>
-      <Navbar cart={store.getState()} />
-      <CartContainer cart={cartItems} />
-    </main>
+    <Provider store={store}>
+      <Navbar />
+      <CartContainer />
+    </Provider>
   );
 }
 
